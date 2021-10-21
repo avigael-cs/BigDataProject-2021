@@ -1,4 +1,4 @@
-const { Console } = require('console');
+//const { Console } = require('console');
 var express = require('express');
 var app = require('express')();
 var server = require('http').Server(app);
@@ -80,9 +80,7 @@ redisClient.on("message", function (channel, data) {
 
     });
 });
-function exit(myList, j) {
 
-}
 redisClient.on('connect', function () {
     console.log('Reciver connected to Redis');
 });
