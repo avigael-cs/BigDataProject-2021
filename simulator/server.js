@@ -2,6 +2,7 @@
 const express = require('express');
 const mountRoutes = require('./routes');
 
+const {sim} = require ("./simulator");
 const app = express();
 const host = '0.0.0.0';
 const port = 3000;
@@ -12,6 +13,7 @@ mountRoutes(app);
 
 app.listen(port, host,() => {
     console.log(`Server running on http://${host}:${port}`);
+    sim();
 });
 
 process.on('SIGTERM', () => {

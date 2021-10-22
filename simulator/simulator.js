@@ -1,16 +1,15 @@
-const { all } = require("mathjs"); // to do
 const fs = require('fs');
 const e = require("express");
+const redis = require("./redis")
 const c = require("config");
 
-let items_data = fs.readFileSync('../redis/package_details.json');
+let items_data = fs.readFileSync('./redis/package_details.json');
 let items = JSON.parse(items_data);
 
 module.exports.sim = (publish) => {
-    var id = 0;
     const from_arr = ["paris", "new york", "barcelona","rome","berlin","luxembourg","bruxelles","amsterdam","rabat"];
     const dest_arr = ["17, yaffo, tel aviv","5, rotchild, jerusalem","2 ben gurion, ramat gan","7 hagolan, haifa","8 haavoda, givat shmuel","2 hamelonot, eilat","3, nahman, ariel","6 mamilla jerusalem"]
-    const items_arr = ["computer","pen", "iphone","headphone", "dictionary","books", "watch","jewel", "lighting","mirror", "dresses","tshirts","shoes","boots", "makeup"," babyliss"];
+    //const items_arr = ["computer","pen", "iphone","headphone", "dictionary","books", "watch","jewel", "lighting","mirror", "dresses","tshirts","shoes","boots", "makeup"," babyliss"];
     const item_list = [];
     const id =0;
     
@@ -52,7 +51,7 @@ module.exports.sim = (publish) => {
         created_package.hour = temp_hour;
         created_package.time=temp_hour;
         created_package.id=id;
-        publish(created_package);
+        redis.xadd("sendPackages", "*", "package", JSON.stringify(created_package));
     }, 1000);
 }
 //module.exports = {created_package};
