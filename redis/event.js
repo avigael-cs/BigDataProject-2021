@@ -12,7 +12,7 @@ module.exports.EventObj = class EventObj{
         this.destination = destination;
     }
 
-    getCarNumber(){
+    getpackageNumber(){
         return this.id_package;
     }
     getEventKind(){
@@ -27,7 +27,7 @@ module.exports.EventObj = class EventObj{
         return this.price;
     }
 
-    getCarKind(){
+    getpackageKind(){
         return this.adress;
     }
 
