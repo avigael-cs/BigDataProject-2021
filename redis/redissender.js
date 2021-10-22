@@ -10,8 +10,8 @@ var sub = redis.createClient()
 module.exports.addToRedis = (param) => {
     var myObj = JSON.parse(param);
     // console.log("got a message: ",param)
-     // Store string  
-     redisClient.set(key, JSON.stringify(myobj), function (err, res) {
+     
+    redisClient.set(key, JSON.stringify(myobj), function (err, res) {
         console.log(res);
     redisClient.publish("message", param);
 });
