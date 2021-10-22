@@ -23,60 +23,39 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-var numOfCars = [0, 0, 0, 0, 0, 0]
-var car_details1 = [];
-var car_details2 = [];
-var car_details3 = [];
-var car_details4 = [];
-var car_details5 = [];
-var totalexitCars = 0 ;
+
 
 redisClient.on("message", function (channel, data) {
     console.log("Got the Massage", data);
     var data = JSON.parse(data, function (key, value) {
+
         if (key == 'enter_section') {
-            numOfCars[value]++
-            numOfCars[0]++
-            switch (value) {
-                case 1:
-                    car_details1.push(JSON.parse(data));
-                    break;
-                case 2:
-                    car_details2.push(JSON.parse(data));
-                    break;
-                case 3:
-                    car_details3.push(JSON.parse(data));
-                    break;
-                case 4:
-                    car_details4.push(JSON.parse(data));
-                    break;
-                case 5:
-                    car_details5.push(JSON.parse(data));
-                    break;
-                default:
-            }
+            numOfpackages[value]++
+            numOfpackages[0]++
+            switch (value) 
+            {}
         }
-        // exit cars
-        listOfDetails = [car_details1, car_details2, car_details3, car_details4, car_details5]
+        // exit packages
+        listOfDetails = [package_details1, package_details2, package_details3, package_details4, package_details5]
         for (var i = 0; i < 5; i++) {
             // exit(listOfDetails[i], i)
             for (var j = 0; j < listOfDetails[i].length; j++) {
                 var myRandom = Math.random()
                 if (myRandom < 0.0005) {
                     listOfDetails[i].splice(j, 1)
-                    numOfCars[0]--;
-                    numOfCars[i + 1]--;
-                    totalexitCars++;
+                    numOfpackages[0]--;
+                    numOfpackages[i + 1]--;
+                    totalexitpackages++;
                 }
             }
         }
-        module.exports.totalExitCars = totalexitCars;
-        module.exports.cars = numOfCars;
-        module.exports.car_Gdetails1 = car_details1;
-        module.exports.car_Gdetails2 = car_details2;
-        module.exports.car_Gdetails3 = car_details3;
-        module.exports.car_Gdetails4 = car_details4;
-        module.exports.car_Gdetails5 = car_details5;
+        module.exports.totalExitpackages = totalexitpackages;
+        module.exports.packages = numOfpackages;
+        module.exports.package_Gdetails1 = package_details1;
+        module.exports.package_Gdetails2 = package_details2;
+        module.exports.package_Gdetails3 = package_details3;
+        module.exports.package_Gdetails4 = package_details4;
+        module.exports.package_Gdetails5 = package_details5;
 
     });
 });
