@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/avigael-cs/BigDataProject-2021#readme",
   "dependencies": {
+    "axios": "^0.23.0",
     "bigml": "^1.22.2",
     "express": "^4.17.1",
     "mongodb": "^4.1.3",
