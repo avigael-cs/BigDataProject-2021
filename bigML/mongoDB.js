@@ -1,38 +1,12 @@
+// export BIGML_USERNAME = avigael-cs
+// export BIGML_API_KEY = 21b8f167c93e8cb5364258b164a64041c8535717
+// export BIGML_CRED = "username=$BIGML_USERNAME;api_key=$BIGML_API_KEY"
+// export BIGML_PROJECT = project/61768d0799dfe70754014923
+
 const MongoClient = require('mongodb').MongoClient;
 const axios = require('axios');
+var fs = require('fs');//read file
 const uri = "mongodb+srv://bigData2021:bigdata@cluster0.ckqda.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-    
-// async function main(){
-//         /**
-//          * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-//          * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-//          */
-//          const uri = "mongodb+srv://bigData2021:bigdata@cluster0.ckqda.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-     
-    
-//         const client = new MongoClient(uri);
-     
-//         try {
-//             // Connect to the MongoDB cluster
-//             await client.connect();
-//             await listDatabases(client);
-//             // Make the appropriate DB calls
-//             await  listDatabases(client);
-     
-//         } catch (e) {
-//             console.error(e);
-//         } finally {
-//             await client.close();
-//         }
-//     }
-//     async function listDatabases(client){
-//         const databasesList = await client.db().admin().listDatabases();
-     
-//         console.log("Databases:");
-//         databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-//     };
-
-//     main().catch(console.error);
 const collection = "packagesDetails";
 
 var db = null; // global variable to hold the connection
@@ -54,7 +28,6 @@ var mongo = {
     console.log("MongoDB: connection closed");
   },
   onEvent: function(packageEvent) {
-    //if(packageEvent.Event_type == "road exit") {
       package = {
         id: packageEvent.id,
         items: packageEvent.items,
@@ -76,8 +49,8 @@ var mongo = {
       // console.log(data);
       const json2csvParser = new Json2csvParser({ header: true });
       const csvData = json2csvParser.parse(data);
-      fs.writeFile("simulatorData.csv", csvData, function(error) {
-        if (error) throw error;
+      fs.writeFile('../BigML/items.csv', csv, 'utf8', function (err){
+            if (error) throw error;
         console.log("mongoDB: Write to simulatorData.csv successfully!");
       });
     });
