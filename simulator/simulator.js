@@ -34,7 +34,7 @@ module.exports.sim = (publish) => {
         for (let i = 0; i < NumOfItems; i++) {
             var itemIndex = Math.floor(Math.random() * 19);
             item_list.push(items[itemIndex]);
-            total_price = total_price + items[itemIndex].price;
+            total_price = items[itemIndex].price;
           }
         var created_package = {}
         created_package.id = uuidv4(); 
@@ -49,4 +49,3 @@ module.exports.sim = (publish) => {
         redis.xadd("sendPackages", "*", "package", JSON.stringify(created_package));
     }, 1000);
 }
-//module.exports = {created_package};

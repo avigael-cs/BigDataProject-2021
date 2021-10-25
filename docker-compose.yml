@@ -20,7 +20,7 @@ services:
     volumes:
       - ./dashboard-server:/app
     depends_on:
-      - redis
+      - simulator
     restart: always
 
   insights-server:
