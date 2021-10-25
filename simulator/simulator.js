@@ -9,9 +9,7 @@ let items = JSON.parse(items_data);
 
 module.exports.sim = (publish) => {
     const from_arr = ["paris", "new york", "barcelona","rome","berlin","luxembourg","bruxelles","amsterdam","rabat"];
-    const dest_arr = ["17, yaffo, tel aviv","5, rotchild, jerusalem","2 ben gurion, ramat gan","7 hagolan, haifa","8 haavoda, givat shmuel","2 hamelonot, eilat","3, nahman, ariel","6 mamilla jerusalem"]
-    //const items_arr = ["computer","pen", "iphone","headphone", "dictionary","books", "watch","jewel", "lighting","mirror", "dresses","tshirts","shoes","boots", "makeup"," babyliss"];
-    
+    const dest_arr = ["17, yaffo, tel aviv","5, rotchild, jerusalem","2 ben gurion, ramat gan","7 hagolan, haifa","8 haavoda, givat shmuel","2 hamelonot, eilat","3, nahman, ariel","6 mamilla jerusalem"]    
     const uoid =0;
     
     setInterval(function () {
@@ -39,14 +37,14 @@ module.exports.sim = (publish) => {
             total_price = total_price + items[itemIndex].price;
           }
         var created_package = {}
+        created_package.id = uuidv4(); 
         created_package.item_list = item_list;
         created_package.price = total_price;
         created_package.size = temp_size;
-        created_package.package_type = from_package;
+        created_package.from = from_package;
         created_package.dest= dest;
         created_package.hour = temp_hour;
         created_package.time=temp_hour;
-        created_package.id = uuidv4(); 
         
         redis.xadd("sendPackages", "*", "package", JSON.stringify(created_package));
     }, 1000);
