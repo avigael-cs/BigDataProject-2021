@@ -1,12 +1,13 @@
 const { redis } = require("../redis");
+const { db } = require("../db");
 
-const processPackage = (message) => {
+const processPackage = async (message) => {
   console.log("Id: %s. Data: %O", message[0], message[1]);
-  let newPackage;
   try {
-    newPackage = JSON.parse(message[1][1]);
+    const newPackageObj = JSON.parse(message[1][1]);
 
-    //Code that pushes into firebase here
+    const newPackageDoc = db.collection('packages').doc(newPackageObj.id);
+    await newPackageDoc.set(newPackageObj);
 
   } catch (e) {
     console.log(`Failed to process package: ${e}`)
