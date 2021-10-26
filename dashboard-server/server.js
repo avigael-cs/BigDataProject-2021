@@ -9,6 +9,7 @@ const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('dashboard'))
 mountRoutes(app);
 
 app.listen(port, host,() => {
