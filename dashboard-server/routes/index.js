@@ -1,5 +1,5 @@
-const package = require('./package');
+const packageRoute = require('./package');
 
 module.exports = app => {
-    app.use('/package', package);
+    app.use('/packages', packageRoute);
 }
