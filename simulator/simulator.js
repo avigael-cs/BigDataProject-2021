@@ -43,8 +43,8 @@ module.exports.sim = (publish) => {
         created_package.size = temp_size;
         created_package.from = from_package;
         created_package.dest= dest;
-        created_package.hour = temp_hour;
-        created_package.time=temp_hour;
+        //created_package.hour = temp_hour;
+        //created_package.time=temp_hour;
         
         redis.xadd("sendPackages", "*", "package", JSON.stringify(created_package));
     }, 1000);
