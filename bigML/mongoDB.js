@@ -9,52 +9,122 @@ var fs = require('fs');//read file
 const uri = "mongodb+srv://bigData2021:bigdata@cluster0.ckqda.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const collection = "packagesDetails";
 
-var db = null; // global variable to hold the connection
 
-// Initialize connection once
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  db = client.db(dataBase).collection(collection);
-  // Database connection is ready
-  axios.post('http://localhost:3000/services', {
-                    service: "mongoDB",
-                    msg: "MongoDB is ready"
-                });
-});
+var Db = {
 
-var mongo = {
-  onClose: function() {
-    client.close();
-    console.log("MongoDB: connection closed");
-  },
-  onEvent: function(packageEvent) {
-      package = {
-        id: packageEvent.id,
-        items: packageEvent.items,
-        price: packageEvent.price,
-        size: packageEvent.size,
-        dest: packageEvent.dest,
-        from: packageEvent.from
-      };
-      db.insertOne(package, function(err, res) {
-        if (err) throw err;
-        console.log("mongoDB: 1 package inserted");
+  // 'CreateEvent' is used for connection to mongoDB and insert object to mongoDB
+  insertEvent_to_mongoDB: function (m) {
+      //--------- connecting to our DB ------------------
+      MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
+          if (err)
+              throw err;
+        
+          var dbo = db.db("bigData2021"); // name of the DB
+    
+          // 'packageDB' is the name of the collection, 'insertOne' function get document(in oue case Json object)
+          //  and insert him to our collection (m is Json object).
+          dbo.collection("packageDB").insertOne(m, function (err, res) {
+              if (err)
+                  throw err;
+              else 
+                  // console.log("Event has been inserted to mongoDB");
+              db.close();
+          });
+      }); 
+  }, // End 'CreateEvent' (end connection to mongoDB and end insert object to mongoDB)
+
+
+  // 'DeleteEvent' is used for delete event from mongoDB
+  DeleteEvent: function (m) {
+      console.log('Delete Event: ' + m);
+  }, // End 'insertEvent_to_mongoDB' 
+
+
+  // 'UpdateEvent' is used for update a given event
+  UpdateEvent: function (m) {
+      console.log('Update Event ' + m);
+  }, // End 'UpdateEvent'
+
+
+
+  ReadEvent: function (renderTheView) {
+      var sum=0;
+              //--------- connecting to our DB ------------------
+      MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
+
+          if (err)
+              throw err;
+
+          var dbo = db.db("salesDb");
+
+          dbo.collection("transactions").find({}, { projection: { _id: 0, quantity: 1 } }).toArray(function (err, result) {
+              if (err)
+                  throw err;
+              console.log(result);
+              sum = sumHelper(result);
+              
+              db.close();
+              var packagedData = {
+                  title: "אריאל",
+                  totalSum: 1200,
+                  percent: 0.8,
+                  icon: "work"
+              }
+              renderTheView(packagedData);
+
+          });
       });
-    //}
-  },
+  } ,// End 'ReadEvent'
 
-  dataToCSV: function () {
-    db.find({}).toArray((err, data) => {
-      if (err) throw err;
-      // console.log(data);
-      const json2csvParser = new Json2csvParser({ header: true });
-      const csvData = json2csvParser.parse(data);
-      fs.writeFile('../BigML/items.csv', csv, 'utf8', function (err){
-            if (error) throw error;
-        console.log("mongoDB: Write to simulatorData.csv successfully!");
-      });
-    });
-  }
+
+  write_to_csv_mongoDB: function () {
+      MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
+          if (err)
+              throw err;
+              // {projection: {IsSpecial:0 }}
+          var dbo = db.db("Project");
+          dbo.collection("packageDB").find()
+          .toArray()
+          .then(products => {
+              create_CSV(products);
+            return products;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+  //         setTimeout(function(){create_CSV(result)}
+  //             , delay);
+
+  //   });
+  }); 
+}} // End Db
+
+
+const Json2_CSV = require("json2csv").Parser;
+const fs = require("fs");
+const ws = fs.createWriteStream("./csv_bigml.csv");
+
+function create_CSV(data) {
+  const json2_csv = new Json2_CSV({ header : true });
+  const csv_data = json2_csv.parse(data);
+  fs.writeFile("./csv_bigml.csv",csv_data,function(error){
+      if(error)
+          throw error;
+      // console.log("Write to csv successfuly!");
+  });
 }
 
-module.exports = mongo;
+
+module.exports = Db // we can use Db in other files 
+
+// _dbo.collection("packages")
+
+
+
+
+
+
+
+
+
+
