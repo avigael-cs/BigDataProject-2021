@@ -1,7 +1,7 @@
 
 const express = require('express');
 const mountRoutes = require('./routes');
-const { listenForPackages } = require('./workers/index.js');
+const { sendingPackages } = require('./workers/index.js');
 
 const app = express();
 const host = '0.0.0.0';
@@ -13,7 +13,7 @@ mountRoutes(app);
 
 app.listen(port, host,() => {
     console.log(`Server running on http://${host}:${port}`);
-    listenForPackages();
+    sendingPackages();
 });
 
 process.on('SIGTERM', () => {

@@ -1,13 +1,13 @@
-var csv_create = require('../mongodb/mongoCSV.js');
-var bigml_cunnect = require('./BigML.js');
+var csv_create = require('../items.csv');
+var bigml_connect = require('./BigML.js');
 var read_json = require('../BigML/readjson.js');
 const bigml = require('bigml');
 var axios = require('axios').default;
-var glob_ok;
+var ml;
 async function bigml_process() {
     try {
-        glob_ok = await csv_create(function () { });
-        glob_ok = await bigml_cunnect(function () { });
+        ml = await csv_create(function () { });
+        ml = await bigml_connect(function () { });
         var obj_from_json = await read_json(function () { })
     }
     catch (err) {
@@ -15,6 +15,7 @@ async function bigml_process() {
     }
     finally {
        json_obj = JSON.stringify(obj_from_json)
+       //axios - make HTTP requests from node. js from the browser
         await axios.post('http://localhost:3000/update_bigml',{
             package: json_obj,
         });

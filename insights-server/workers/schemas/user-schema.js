@@ -1,9 +1,10 @@
+const { ListCollectionsCursor } = require('mongodb')
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
         id:{type: String,
             required: true},
-        //items: list,
+        //items: [Schema.Types.Mixed],
         price: {type: String,
             required: true},
         size: {type: String,
