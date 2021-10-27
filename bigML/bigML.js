@@ -32,6 +32,7 @@ module.exports = async function bigml_connect(callback) {
                     'only_model=true;limit=-1',
                    async function (error, resource) {
                       if (!error && resource) {
+                        //create file json
                         fs.writeFileSync('../BigML/dataset.json', JSON.stringify(resource, null, "  "));
                       }
                     });
