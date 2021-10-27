@@ -13,8 +13,9 @@ module.exports.sim = (publish) => {
     const uoid =0;
     
     setInterval(function () {
+        //random shlifa
         var total_price;//total price in accordance to the items
-        var NumOfItems = Math.floor(Math.random() * 19) + 1;
+        var NumOfItems = Math.floor(Math.random() * 19) + 1;//num of items
         var temp_sec_arrive = Math.floor(Math.random() * 50000) + 1;//how much time till it arrive
         var from_package = from_arr[Math.floor(Math.random() * 9)];// from where
         var dest = dest_arr[Math.floor(Math.random() * 8)];// destination in israel
@@ -31,11 +32,13 @@ module.exports.sim = (publish) => {
             temp_size = "big"
         }
         var item_list = [];
+        //fill the array of items
         for (let i = 0; i < NumOfItems; i++) {
             var itemIndex = Math.floor(Math.random() * 19);
             item_list.push(items[itemIndex]);
             total_price = items[itemIndex].price;
           }
+          //created_package
         var created_package = {}
         created_package.id = uuidv4(); 
         created_package.item_list = item_list;
@@ -46,6 +49,7 @@ module.exports.sim = (publish) => {
         //created_package.hour = temp_hour;
         //created_package.time=temp_hour;
         
+        //send package to redis
         redis.xadd("sendPackages", "*", "package", JSON.stringify(created_package));
     }, 1000);
 }
