@@ -7,7 +7,9 @@ var bigml = require('bigml');
 var fs = require('fs');
 var connection = new bigml.BigML('AfikPeretz', '143dcb7fa89214cb41e233c41a4b76d4cc7f856d')
 var source = new bigml.Source(connection);
-var ok;
+const redis = require('redis');
+const BigSender = require('../simulator');
+const broker = redis.createClient(6379,'127.0.0.1');
 
 module.exports = async function bigml_connect(callback) {
   try {

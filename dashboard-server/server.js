@@ -14,7 +14,7 @@ mountRoutes(app);
 
 app.listen(port, host,() => {
     console.log(`Server running on http://${host}:${port}`);
-    // listenForPackages();
+    listenForPackages();
 });
 
 process.on('SIGTERM', () => {
